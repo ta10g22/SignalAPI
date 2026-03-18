@@ -22,10 +22,5 @@ SignalAPI uses a pretrained NLP model to score an input comment and returns:
 ```json
 {
   "label": "toxic",
-  "scores": {
-    "positive": 0.02,
-    "negative": 0.10,
-    "toxic": 0.88
-  },
   "reason": "Contains abusive or hateful language."
 }
