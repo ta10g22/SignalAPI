@@ -19,23 +19,24 @@ def health():
 
 @app.post("/moderate")
 def moderate(comment: Comment):
-    toxic_true = toxic_pipe(comment.text)
-    if toxic_true[0] == "toxic":
+    result = toxic_pipe(comment.text)
+    toxic_true = result[0]
+    if toxic_true["label"] == "toxic":
         return {"label": "toxic",
                 "reason": "Contains abusive or hateful language." }
     
     else:
-        pos_or_neg = pos_neg_pipe(comment.text)
-        if pos_or_neg[0] == "positive":
+        result = pos_neg_pipe(comment.text)
+        pos_or_neg = result[0]
+        if pos_or_neg["label"] == "positive":
              return {"label": "positive",
                      "reason": "Contains postive feedback." }
-        
 
-        elif pos_or_neg[0] == "negative":
+        elif pos_or_neg["label"] == "negative":
              return {"label": "negative",
                      "reason": "Contains critism or negative feedback." }
         
-        elif pos_or_neg[0] == "neutral":
+        elif pos_or_neg["label"] == "neutral":
              return {"label": "negative",
                      "reason": "Contains critism or negative feedback." }
 
