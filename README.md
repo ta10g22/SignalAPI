@@ -18,6 +18,15 @@ SignalAPI uses a pretrained NLP model to score an input comment and returns:
 - `POST /moderate` — classify a comment and return the result
 - `POST /feedback` — submit corrections (optional, for improving the model later)
 
+## Frontend Demo
+- Open `http://<server-ip>/` to use the built-in frontend.
+- Type a comment in the textbox and click **Analyze Comment**.
+- The frontend sends `POST /moderate` with:
+  ```json
+  { "text": "your comment here" }
+  ```
+- The API response is rendered on the page (label + reason).
+
 ## Example response
 ```json
 {

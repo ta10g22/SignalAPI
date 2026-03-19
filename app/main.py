@@ -1,21 +1,34 @@
+from pathlib import Path
+
 from fastapi import FastAPI
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from transformers import pipeline
+
+APP_DIR = Path(__file__).resolve().parent
+STATIC_DIR = APP_DIR / "static"
 
 toxic_pipe = pipeline("text-classification", model="JungleLee/bert-toxic-comment-classification")
 pos_neg_pipe = pipeline("text-classification", model="cardiffnlp/twitter-roberta-base-sentiment-latest")
 
- 
-class Comment(BaseModel):  #pydantic model
-    text:str
+class Comment(BaseModel):
+    text: str
 
 #fastapi instance
 app = FastAPI()
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
-#routes
+
+@app.get("/", include_in_schema=False)
+def index():
+    return FileResponse(STATIC_DIR / "index.html")
+
+
 @app.get("/health")
 def health():
-    return {"status":"ok"}
+    return {"status": "ok"}
+
 
 @app.post("/moderate")
 def moderate(comment: Comment):
@@ -40,7 +53,11 @@ def moderate(comment: Comment):
              return {"label": "negative",
                      "reason": "Contains critism or negative feedback." }
 
-@app.post("/feedback") 
-def feedback(response: Comment):
+        else:
+             return {"label": "unknown",
+                     "reason": f"Could not classify label: {pos_or_neg['label']}" }
 
-    return {}  
+
+@app.post("/feedback")
+def feedback(response: Comment):
+    return {}

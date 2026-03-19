@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SignalAPI - Comment Moderator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="background-shape shape-a"></div>
+  <div class="background-shape shape-b"></div>
+
+  <main class="layout">
+    <section class="hero card">
+      <p class="eyebrow">SignalAPI Demo</p>
+      <h1>Moderate Comments Live</h1>
+      <p class="subtitle">
+        Type a comment, click analyze, and this page will call your FastAPI endpoint
+        at <code>POST /moderate</code> and display the model decision.
+      </p>
+      <div class="status-row">
+        <span id="apiStatus" class="status pending">Checking API...</span>
+      </div>
+    </section>
+
+    <section class="panel card">
+      <label for="commentInput" class="label">Comment Text</label>
+      <textarea id="commentInput" rows="6" placeholder="Type a comment here..."></textarea>
+
+      <div class="actions">
+        <button id="analyzeBtn" class="btn primary">Analyze Comment</button>
+        <button id="clearBtn" class="btn ghost" type="button">Clear</button>
+      </div>
+
+      <div id="errorBox" class="error hidden"></div>
+
+      <div id="resultCard" class="result hidden">
+        <p class="result-title">Classification</p>
+        <div class="result-row">
+          <span class="meta">Label</span>
+          <span id="resultLabel" class="pill">-</span>
+        </div>
+        <div class="result-row">
+          <span class="meta">Reason</span>
+          <span id="resultReason">-</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="trace card">
+      <p class="trace-title">Request / Response Trace</p>
+      <pre id="traceBox">No requests yet.</pre>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
