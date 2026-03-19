@@ -5,7 +5,7 @@ from transformers import pipeline
 toxic_pipe = pipeline("text-classification", model="JungleLee/bert-toxic-comment-classification")
 pos_neg_pipe = pipeline("text-classification", model="cardiffnlp/twitter-roberta-base-sentiment-latest")
 
-
+ 
 class Comment(BaseModel):  #pydantic model
     text:str
 
@@ -19,13 +19,13 @@ def health():
 
 @app.post("/moderate")
 def moderate(comment: Comment):
-    toxic_true = print(toxic_pipe(comment.text))
+    toxic_true = toxic_pipe(comment.text)
     if toxic_true[0] == "toxic":
         return {"label": "toxic",
                 "reason": "Contains abusive or hateful language." }
     
     else:
-        pos_or_neg = print(pos_neg_pipe(comment.text)) 
+        pos_or_neg = pos_neg_pipe(comment.text)
         if pos_or_neg[0] == "positive":
              return {"label": "positive",
                      "reason": "Contains postive feedback." }
